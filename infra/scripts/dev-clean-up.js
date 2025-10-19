@@ -99,7 +99,7 @@ runPrevDevCommands([...preDevCommands], () => {
     }
   });
   process.on("SIGINT", () => {
-      nextDev.kill("SIGINT");
-      cleanupAndExit();
+    nextDev.kill("SIGINT");
+    cleanupAndExit();
   });
 });
