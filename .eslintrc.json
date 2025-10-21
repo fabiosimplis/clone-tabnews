@@ -4,5 +4,10 @@
     "plugin:jest/recommended",
     "next/core-web-vitals",
     "prettier"
-  ]
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2020": true
+  }
 }
