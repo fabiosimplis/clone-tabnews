@@ -8,7 +8,8 @@ async function query(queryObject) {
     return result;
     // eslint-disable-next-line no-useless-catch
   } catch (error) {
-    console.log("\n Erro dentro do catch do database:\n" + error);
+    console.log("\n Erro dentro do catch do database.js");
+    console.error(error);
     throw error;
   } finally {
     await client?.end();
