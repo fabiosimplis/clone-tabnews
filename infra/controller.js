@@ -5,6 +5,8 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "infra/errors.js";
+import * as cookie from "cookie";
+import session from "models/session.js";
 
 function onNoMatchHandler(request, response) {
   const publicErrorObject = new MethodNotAllowedError();
@@ -28,11 +30,24 @@ function onErrorHandler(error, request, response) {
   response.status(publicErrorObject.statusCode).json(publicErrorObject);
 }
 
+// "Path=/"disponibiliza o cookie na raiz do site"
+//response.setHeader("Set-Cookie", `session_id=${newSession.token}; Path=/`);
+function setSessionCookie(sessionToken, response) {
+  const setCookie = cookie.serialize("session_id", sessionToken, {
+    path: "/",
+    maxAge: session.EXPIRATION_IN_MILLISECONDS / 1000, // 30 days in seconds
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
+  response.setHeader("Set-Cookie", setCookie);
+}
+
 const controller = {
   errorHandlers: {
     onNoMatch: onNoMatchHandler,
     onError: onErrorHandler,
   },
+  setSessionCookie,
 };
 
 export default controller;
