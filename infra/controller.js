@@ -32,10 +32,20 @@ function onErrorHandler(error, request, response) {
 
 // "Path=/"disponibiliza o cookie na raiz do site"
 //response.setHeader("Set-Cookie", `session_id=${newSession.token}; Path=/`);
-function setSessionCookie(sessionToken, response) {
+async function setSessionCookie(sessionToken, response) {
   const setCookie = cookie.serialize("session_id", sessionToken, {
     path: "/",
     maxAge: session.EXPIRATION_IN_MILLISECONDS / 1000, // 30 days in seconds
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
+  response.setHeader("Set-Cookie", setCookie);
+}
+
+async function clearSessionCookie(response) {
+  const setCookie = cookie.serialize("session_id", "invalid", {
+    path: "/",
+    maxAge: -1, // This value causes the browser to clear the cookie.
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
   });
@@ -48,6 +58,7 @@ const controller = {
     onError: onErrorHandler,
   },
   setSessionCookie,
+  clearSessionCookie,
 };
 
 export default controller;
