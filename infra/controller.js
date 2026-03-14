@@ -96,11 +96,11 @@ function injectAnonymousUser(request) {
 
 function canRequest(feature) {
   return function canRequestMiddleware(request, response, next) {
+    // console.log("CAN");
     // console.log("feature:", feature);
     // console.log("request:", request.method, request.url);
     // console.log("user:", request.context.user);
     const userTryingToRequest = request.context.user;
-
     if (authorization.can(userTryingToRequest, feature)) return next();
 
     throw new ForbiddenError({
