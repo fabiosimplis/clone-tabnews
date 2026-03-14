@@ -47,7 +47,7 @@ async function runPendingMigrations() {
   await migrator.runPendingMigrations();
 }
 
-async function createUser(userObject) {
+async function createUser(userObject = {}) {
   return await user.create({
     //.replace("_","").replace(".","").replace("-",""),
     username:
