@@ -5,7 +5,7 @@ function getOrigin() {
     return `https://${process.env.VERCEL_URL}`;
   }
 
-  return "https://fintab.com.br";
+  return "https://tabnewsfork.com.br";
 }
 
 const webserver = {
